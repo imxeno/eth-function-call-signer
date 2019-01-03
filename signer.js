@@ -8,7 +8,7 @@ const program = require("commander");
 const inquirer = require("inquirer");
 
 program
-  .version("0.1.1")
+  .version("0.1.2")
   .option("-a, --abi <path>", "path to json file with ABI (required)")
   .option(
     "-p, --privatekey <path>",

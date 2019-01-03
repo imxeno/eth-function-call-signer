@@ -1,6 +1,6 @@
 {
   "name": "eth-function-call-signer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": "https://github.com/imxeno/eth-function-call-signer.git",
   "author": "Piotr Adamczyk <xeno@xeno.yt>",
   "main": "index.js",
