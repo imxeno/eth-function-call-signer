@@ -64,6 +64,7 @@ const run = async () => {
     inputs.map(i => encodeArgs[i.name])
   );
 
+  // literally fuck my life and also fuck solidity
   if (program.truncateEncodedParameters) {
     while (
       abiEncodedParameters.substr(abiEncodedParameters.length - 4, 4) == "0000"
