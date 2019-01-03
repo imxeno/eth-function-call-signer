@@ -65,7 +65,7 @@ const run = async () => {
   );
 
   // literally fuck my life and also fuck solidity
-  if (program.truncateEncodedParameters) {
+  if (program.truncate) {
     while (
       abiEncodedParameters.substr(abiEncodedParameters.length - 4, 4) == "0000"
     ) {
