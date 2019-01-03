@@ -9,17 +9,17 @@ const inquirer = require("inquirer");
 
 program
   .version("0.1.0")
-  .option("-a|--abi <path>", "path to json file with ABI (required)")
+  .option("-a, --abi <path>", "path to json file with ABI (required)")
   .option(
-    "-p|--privatekey <path>",
+    "-p, --privatekey <path>",
     "path to a text file containing private key"
   )
   .option(
-    "-t|--truncate",
+    "-t, --truncate",
     "truncate zeroes from the end of abiEncodedParameters (required if signature is verified by a function and not by a modifier)"
   )
   .option(
-    "--truffle",
+    "-T, --truffle",
     "tells the application that abi file should be treated as a truffle build file"
   )
   .parse(process.argv);
