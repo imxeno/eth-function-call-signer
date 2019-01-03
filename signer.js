@@ -15,11 +15,7 @@ program
     "path to a text file containing private key"
   )
   .option(
-    "-t, --truncate",
-    "truncate zeroes from the end of abiEncodedParameters (required if signature is verified by a function and not by a modifier)"
-  )
-  .option(
-    "-T, --truffle",
+    "-t, --truffle",
     "tells the application that abi file should be treated as a truffle build file"
   )
   .parse(process.argv);
@@ -63,18 +59,6 @@ const run = async () => {
     inputs.map(i => i.type),
     inputs.map(i => encodeArgs[i.name])
   );
-
-  // literally fuck my life and also fuck solidity
-  if (program.truncate) {
-    while (
-      abiEncodedParameters.substr(abiEncodedParameters.length - 4, 4) == "0000"
-    ) {
-      abiEncodedParameters = abiEncodedParameters.substr(
-        0,
-        abiEncodedParameters.length - 2
-      );
-    }
-  }
 
   let abiEncoded = web3.eth.abi.encodeParameters(
     ["uint", "string", "bytes"],
