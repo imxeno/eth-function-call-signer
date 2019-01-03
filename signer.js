@@ -9,8 +9,15 @@ const inquirer = require("inquirer");
 
 program
   .version("0.1.0")
-  .option("--privateKey <path>", "path to a text file containing private key")
-  .option("--abi <path>", "path to json file with ABI (required)")
+  .option("-a|--abi <path>", "path to json file with ABI (required)")
+  .option(
+    "-p|--privatekey <path>",
+    "path to a text file containing private key"
+  )
+  .option(
+    "-t|--truncate",
+    "truncate zeroes from the end of abiEncodedParameters (required if signature is verified by a function and not by a modifier)"
+  )
   .option(
     "--truffle",
     "tells the application that abi file should be treated as a truffle build file"
@@ -23,7 +30,7 @@ if (!program.abi) {
 }
 
 const run = async () => {
-  const privateKey = fs.readFileSync(program.privateKey, { encoding: "utf-8" });
+  const privateKey = fs.readFileSync(program.privatekey, { encoding: "utf-8" });
 
   let abi = JSON.parse(fs.readFileSync(program.abi));
   if (program.truffle) abi = abi.abi;
@@ -52,12 +59,23 @@ const run = async () => {
     inputs.map(i => ({ name: i.name, message: i.name + " (" + i.type + ")" }))
   );
 
-  const abiEncodedParameters = web3.eth.abi.encodeParameters(
+  let abiEncodedParameters = web3.eth.abi.encodeParameters(
     inputs.map(i => i.type),
     inputs.map(i => encodeArgs[i.name])
   );
 
-  const abiEncoded = web3.eth.abi.encodeParameters(
+  if (program.truncateEncodedParameters) {
+    while (
+      abiEncodedParameters.substr(abiEncodedParameters.length - 4, 4) == "0000"
+    ) {
+      abiEncodedParameters = abiEncodedParameters.substr(
+        0,
+        abiEncodedParameters.length - 2
+      );
+    }
+  }
+
+  let abiEncoded = web3.eth.abi.encodeParameters(
     ["uint", "string", "bytes"],
     [commonData.actionId, methods[commonData.method].name, abiEncodedParameters]
   );
